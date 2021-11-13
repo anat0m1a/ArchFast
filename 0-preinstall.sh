@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #-------------------------------------------------------------------------
-#   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-#  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-#  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-#  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-#  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-#  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
+#  █████╗ ██████╗  ██████╗██╗  ██╗███████╗ █████╗ ███████╗████████╗
+# ██╔══██╗██╔══██╗██╔════╝██║  ██║██╔════╝██╔══██╗██╔════╝╚══██╔══╝
+# ███████║██████╔╝██║     ███████║█████╗  ███████║███████╗   ██║   
+# ██╔══██║██╔══██╗██║     ██╔══██║██╔══╝  ██╔══██║╚════██║   ██║   
+# ██║  ██║██║  ██║╚██████╗██║  ██║██║     ██║  ██║███████║   ██║   
+# ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝                                                         
 #-------------------------------------------------------------------------
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 echo "-------------------------------------------------"
@@ -18,14 +18,14 @@ setfont ter-v22b
 sed -i 's/^#Para/Para/' /etc/pacman.conf
 pacman -S --noconfirm reflector rsync grub
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-echo -e "-------------------------------------------------------------------------"
-echo -e "   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗"
-echo -e "  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝"
-echo -e "  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗"
-echo -e "  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║"
-echo -e "  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║"
-echo -e "  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝"
-echo -e "-------------------------------------------------------------------------"
+echo -e "------------------------------------------------------------------"
+echo -e " █████╗ ██████╗  ██████╗██╗  ██╗███████╗ █████╗ ███████╗████████╗"
+echo -e "██╔══██╗██╔══██╗██╔════╝██║  ██║██╔════╝██╔══██╗██╔════╝╚══██╔══╝"
+echo -e "███████║██████╔╝██║     ███████║█████╗  ███████║███████╗   ██║   "
+echo -e "██╔══██║██╔══██╗██║     ██╔══██║██╔══╝  ██╔══██║╚════██║   ██║   "
+echo -e "██║  ██║██║  ██║╚██████╗██║  ██║██║     ██║  ██║███████║   ██║   "
+echo -e "╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝   "
+echo -e "------------------------------------------------------------------"                                                            
 echo -e "-Setting up $iso mirrors for faster downloads"
 echo -e "-------------------------------------------------------------------------"
 
@@ -103,10 +103,10 @@ fi
 echo "--------------------------------------"
 echo "-- Arch Install on Main Drive       --"
 echo "--------------------------------------"
-pacstrap /mnt base base-devel linux linux-firmware vim nano sudo archlinux-keyring wget libnewt --noconfirm --needed
+pacstrap /mnt base base-devel linux linux-firmware vim sudo archlinux-keyring wget libnewt --noconfirm --needed
 genfstab -U /mnt >> /mnt/etc/fstab
 echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
-cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
+cp -R ${SCRIPT_DIR} /mnt/root/ArchFast
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 echo "--------------------------------------"
 echo "--GRUB BIOS Bootloader Install&Check--"
@@ -127,9 +127,9 @@ if [[  $TOTALMEM -lt 8000000 ]]; then
     chown root /mnt/opt/swap/swapfile
     mkswap /mnt/opt/swap/swapfile
     swapon /mnt/opt/swap/swapfile
-    #The line below is written to /mnt/ but doesn't contain /mnt/, since it's just / for the sysytem itself.
+    #The line below is written to /mnt/ but doesn't contain /mnt/, since it's just / for the system itself.
     echo "/opt/swap/swapfile	none	swap	sw	0	0" >> /mnt/etc/fstab #Add swap to fstab, so it KEEPS working after installation.
 fi
 echo "--------------------------------------"
-echo "--   SYSTEM READY FOR 1-setup       --"
+echo "--     SYSTEM READY FOR SETUP       --"
 echo "--------------------------------------"
