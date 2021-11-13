@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #-------------------------------------------------------------------------
-#   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-#  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-#  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-#  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-#  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-#  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
+#  █████╗ ██████╗  ██████╗██╗  ██╗███████╗ █████╗ ███████╗████████╗
+# ██╔══██╗██╔══██╗██╔════╝██║  ██║██╔════╝██╔══██╗██╔════╝╚══██╔══╝
+# ███████║██████╔╝██║     ███████║█████╗  ███████║███████╗   ██║   
+# ██╔══██║██╔══██╗██║     ██╔══██║██╔══╝  ██╔══██║╚════██║   ██║   
+# ██║  ██║██║  ██║╚██████╗██║  ██║██║     ██║  ██║███████║   ██║   
+# ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝   ╚═╝   
 #-------------------------------------------------------------------------
 echo "--------------------------------------"
 echo "--          Network Setup           --"
@@ -30,16 +30,16 @@ echo "Changing the compression settings for "$nc" cores."
 sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g" /etc/makepkg.conf
 fi
 echo "-------------------------------------------------"
-echo "       Setup Language to US and set locale       "
+echo "       Setup Language to UK and set locale       "
 echo "-------------------------------------------------"
-sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+sed -i 's/^#en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
-timedatectl --no-ask-password set-timezone America/Chicago
+timedatectl --no-ask-password set-timezone Europe/London
 timedatectl --no-ask-password set-ntp 1
 localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
 
 # Set keymaps
-localectl --no-ask-password set-keymap us
+localectl --no-ask-password set-keymap uk
 
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
@@ -74,10 +74,6 @@ PKGS=(
 'bind'
 'binutils'
 'bison'
-'bluedevil'
-'bluez'
-'bluez-libs'
-'bluez-utils'
 'breeze'
 'breeze-gtk'
 'bridge-utils'
@@ -103,7 +99,6 @@ PKGS=(
 'fuseiso'
 'gamemode'
 'gcc'
-'gimp' # Photo editing
 'git'
 'gparted' # partition management
 'gptfdisk'
@@ -141,8 +136,8 @@ PKGS=(
 'm4'
 'make'
 'milou'
-'nano'
 'neofetch'
+'net-tools'
 'networkmanager'
 'ntfs-3g'
 'ntp'
@@ -174,10 +169,8 @@ PKGS=(
 'sddm-kcm'
 'snapper'
 'spectacle'
-'steam'
 'sudo'
 'swtpm'
-'synergy'
 'systemsettings'
 'terminus-font'
 'traceroute'
@@ -232,22 +225,23 @@ elif lspci | grep -E "Radeon"; then
     pacman -S xf86-video-amdgpu --noconfirm --needed
 elif lspci | grep -E "Integrated Graphics Controller"; then
     pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils --needed --noconfirm
+else
+	pacman -S virtualbox-guest-utils xf86-video-vmware --needed --noconfirm
 fi
 
 echo -e "\nDone!\n"
 if ! source install.conf; then
 	read -p "Please enter username:" username
-echo "username=$username" >> ${HOME}/ArchTitus/install.conf
+echo "username=$username" >> ${HOME}/ArchFast/install.conf
 fi
 if [ $(whoami) = "root"  ];
 then
     useradd -m -G wheel,libvirt -s /bin/bash $username 
 	passwd $username
-	cp -R /root/ArchTitus /home/$username/
-    chown -R $username: /home/$username/ArchTitus
+	cp -R /root/ArchFast /home/$username/
+    chown -R $username: /home/$username/ArchFast
 	read -p "Please name your machine:" nameofmachine
 	echo $nameofmachine > /etc/hostname
 else
 	echo "You are already a user proceed with aur installs"
 fi
-
