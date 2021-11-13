@@ -40,4 +40,3 @@ __[Arch Linux Installation Guide](https://github.com/rickellis/Arch-Linux-Instal
 ## Credit
 
 - Original script (ArchTitus) was created by Chris Titus and can be found here: https://github.com/ChrisTitusTech/ArchTitus
-- 
