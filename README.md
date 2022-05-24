@@ -13,7 +13,7 @@ From initial Prompt type the following commands:
 
 ```
 pacman -Sy git
-git clone https://github.com/harryrw/ArchFast
+git clone https://github.com/lizzyrw/ArchFast
 cd ArchFast
 ./archfast.sh
 ```
